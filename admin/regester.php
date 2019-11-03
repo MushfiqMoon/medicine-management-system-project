@@ -12,9 +12,11 @@ if(isset($_POST["regester"])){
    $userCheck = mysqli_query($connect,"SELECT * FROM mc_user WHERE user_email = '$email';");
 
    if (mysqli_num_rows($userCheck) == 0) {
-      
+      if($passWord== $checkPassWord){
+         $query = "INSERT INTO `mc_user`(`user_name`, `user_email`, `user_password`) VALUES ('$user','$email','$passWord')"; 
+         $result = mysqli_query($connect,$query);
+      }
    }
-  
 
 }
 
