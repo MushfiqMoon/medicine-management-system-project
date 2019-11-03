@@ -1,24 +1,29 @@
 <?php include_once './header.php'; ?>
 <?php include_once './connection.php'; ?>
 <?php
-if(isset($_POST["regester"])){
 
-   $user = $_POST["name"];
-   $email = $_POST["email"];
-   $passWord = $_POST["password"];
-   $checkPassWord = $_POST["confirmPassword"];
+   session_start();
 
-   //email check
-   $userCheck = mysqli_query($connect,"SELECT * FROM mc_user WHERE user_email = '$email';");
+   if(isset($_POST["regester"])){
 
-   if (mysqli_num_rows($userCheck) == 0) {
-      if($passWord== $checkPassWord){
-         $query = "INSERT INTO `mc_user`(`user_name`, `user_email`, `user_password`) VALUES ('$user','$email','$passWord')"; 
-         $result = mysqli_query($connect,$query);
+      $user = $_POST["name"];
+      $email = $_POST["email"];
+      $passWord = $_POST["password"];
+      $checkPassWord = $_POST["confirmPassword"];
+
+      //email check
+      $userCheck = mysqli_query($connect,"SELECT * FROM mc_user WHERE user_name = '$user';");
+
+      if (mysqli_num_rows($userCheck) == 0) {
+         if($passWord == $checkPassWord){
+            $query = "INSERT INTO `mc_user`(`user_name`, `user_email`, `user_password`) VALUES ('$user','$email','$passWord')"; 
+            $result = mysqli_query($connect,$query);
+
+            header('location: login.php');
+         }
       }
-   }
 
-}
+   }
 
 ?>
 <section>

@@ -1,4 +1,30 @@
-<?php include_once 'header.php'; ?>
+<?php include_once './header.php'; ?>
+<?php include_once './connection.php'; ?>
+<?php
+    session_start();
+
+    if(isset($_SESSION['user_login'])){
+        header('location: index.php');
+    }
+
+    if (isset($_POST["login"])) {
+
+        $user = $_POST["user"];
+        $passWord = $_POST["password"];
+
+        $userCheck = mysqli_query($connect, "SELECT * FROM `mc_user` WHERE `user_name` = '$user'");
+
+        if (mysqli_num_rows($userCheck) > 0) {
+            
+            $_SESSION['user_login'] = $user;
+            
+            header('location: index.php');
+            
+        }
+      
+    }
+
+?>
 
 <h1 class="text-center mt-5">Admin Login </h1>
 <div class="container pt-3">
@@ -9,15 +35,15 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-8 offset-md-2">
-                            <form class="form-signin">
-                                <input type="text" class="form-control mb-3" placeholder="Email" required autofocus>
-                                <input type="password" class="form-control mb-3" placeholder="Password" required>
-                                <button class="btn btn-primary btn-block mb-1" type="submit">Sign in</button>
+                            <form class="form-signin" method="post">
+                                <input type="text" name="user" class="form-control mb-3" placeholder="user" required>
+                                <input type="password" name="password" class="form-control mb-3" placeholder="Password" required>
+                                <button class="btn btn-primary btn-block mb-1" name="login" type="submit">Sign in</button>
                                 <label class="checkbox float-left">
                                     <!-- <input type="checkbox" value="remember-me">
                                     Remember me -->
                                 </label>
-                                <a href="#" class="float-right">Need help?</a>
+                                <!-- <a href="#" class="float-right">Need help?</a> -->
                             </form>
                         </div>
                     </div>
